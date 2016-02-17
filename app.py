@@ -35,5 +35,8 @@ def echo(token):
         if '/echo ' in text:
             text = text[6:]
         # repeat the same message back (echo)
-        bot.sendMessage(chat_id=chat_id, text=text)
+        if text == None or len(text) == 0:
+            pass
+        else:
+            bot.sendMessage(chat_id=chat_id, text=text)
     return 'ok'
