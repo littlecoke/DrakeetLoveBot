@@ -12,6 +12,7 @@ import telegram
 app = Flask(__name__)
 logging.basicConfig(level=logging.DEBUG,
                     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+bot_name = '@DrakeetLoveBot'
 
 # 动态路由
 # app.register_blueprint(todos_view, url_prefix='/todos')
@@ -26,17 +27,41 @@ def index():
 
 
 @app.route('/<token>', methods=['POST'])
-def echo(token):
+def dispatch(token):
     if request.method == "POST":
         update = telegram.Update.de_json(request.get_json(force=True))
-        chat_id = update.message.chat.id
-        # Telegram understands UTF-8, so encode text for unicode compatibility
-        text = update.message.text.encode('utf-8')
-        if '/echo ' in text:
-            text = text[6:]
-        # repeat the same message back (echo)
-        if text == None or len(text) == 0:
-            pass
-        else:
-            bot.sendMessage(chat_id=chat_id, text=text)
+        handle_message(update.message)
     return 'ok'
+
+
+def handle_message(message):
+    if '/echo' in text:
+        echo(message)
+
+
+def parse_cmd_text(text):
+    # Telegram understands UTF-8, so encode text for unicode compatibility
+    text = text.encode('utf-8')
+    cmd = None
+    if '/' in text:
+        try:
+            index = text.index(' ')
+        except ValueError as e:
+            return (text, None)
+        cmd = text[:index]
+        text = text[index + 1:]
+    if not cmd == None and '@' in cmd:
+        cmd = cmd.replace(bot_name, '')
+    return (cmd, text)
+
+
+def echo(message):
+    '''
+    repeat the same message back (echo)
+    '''
+    cmd, text = parse_cmd_text(text)
+    if text == None or len(text) == 0:
+        pass
+    else:
+        chat_id = message.chat.id
+        bot.sendMessage(chat_id=chat_id, text=text)
