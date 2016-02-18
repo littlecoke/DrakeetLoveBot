@@ -80,6 +80,6 @@ def milestone(message):
 
 def help(message):
     text = ('/echo - Repeat the same message back\n'
-            '/milestone - Get drakeet's milestone')
+            '/milestone - Get drakeet\'s milestone')
     chat_id = message.chat.id
     bot.sendMessage(chat_id=chat_id, text=text)
