@@ -43,8 +43,8 @@ def handle_message(message):
         milestone(message)
     if '/help' in text:
         help(message)
-    if '/random-lyrics' in text:
-        random_lyrics(message)
+    if '/randomlyric' in text:
+        random_lyric(message)
 
 
 def parse_cmd_text(text):
@@ -90,6 +90,7 @@ def help(message):
     bot.sendMessage(chat_id=chat_id, text=text)
     bot.sendMessage(chat_id=message.chat.id, text=text)
 
+
 def random_line(afile):
     line = next(afile)
     for num, aline in enumerate(afile):
@@ -98,7 +99,7 @@ def random_line(afile):
     return line
 
 
-def random_lyrics(message):
+def random_lyric(message):
     Song = Object.extend('Song')
     song_query = Query(Song)
     count = song_query.count()
