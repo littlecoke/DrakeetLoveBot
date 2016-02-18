@@ -110,3 +110,13 @@ def random_text(message):
     else:
         return
     bot.sendMessage(chat_id=message.chat.id, text=text)
+
+
+def get_my_last_at(message):
+    AtMessage = Object.extend('AtMessage')
+    query = Query(AtMessage)
+    query.equal_to('owner', message.from_user.username)
+    msg = query.first()
+    text = 'Here you are.'
+    message_id = msg.get('mid')
+    bot.sendMessage(chat_id=message.chat.id, reply_to_message_id=message_id, text=text)
