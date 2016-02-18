@@ -33,8 +33,11 @@ def launcher(token):
 
 
 def handle_message(message):
-    if '/echo' in message.text:
+    text = message.text
+    if '/echo' in text:
         echo(message)
+    if '/milestone' in text:
+        milestone(message)
 
 
 def parse_cmd_text(text):
