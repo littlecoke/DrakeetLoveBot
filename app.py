@@ -133,6 +133,7 @@ def get_my_last_at(message):
     todo: relate the origin chat id.
     '''
     query = Query(AtMessage)
+    query.descending('createdAt')
     query.equal_to('owner', message.from_user.username)
     try:
         msg = query.first()
