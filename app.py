@@ -27,7 +27,7 @@ def index():
 
 
 @app.route('/<token>', methods=['POST'])
-def dispatch(token):
+def launcher(token):
     print('I am still alive.')
     if request.method == "POST":
         update = telegram.Update.de_json(request.get_json(force=True))
@@ -61,7 +61,7 @@ def echo(message):
     '''
     repeat the same message back (echo)
     '''
-    cmd, text = parse_cmd_text(text)
+    cmd, text = parse_cmd_text(message.text)
     if text == None or len(text) == 0:
         pass
     else:
