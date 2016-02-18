@@ -7,7 +7,7 @@ from flask import render_template, request
 import logging
 import telegram
 import leancloud
-from leancloud import Engine, Query, Object
+from leancloud import Engine, Query, Object, LeanCloudError
 import random
 
 
