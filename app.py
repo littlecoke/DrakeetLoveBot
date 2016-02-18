@@ -6,6 +6,9 @@ from flask import Flask
 from flask import render_template, request
 import logging
 import telegram
+import leancloud
+from leancloud import Engine, Query, Object
+import random
 
 
 app = Flask(__name__)
@@ -40,6 +43,8 @@ def handle_message(message):
         milestone(message)
     if '/help' in text:
         help(message)
+    if '/random-lyrics' in text:
+        random_lyrics(message)
 
 
 def parse_cmd_text(text):
@@ -83,3 +88,28 @@ def help(message):
             '/milestone - Get drakeet\'s milestone')
     chat_id = message.chat.id
     bot.sendMessage(chat_id=chat_id, text=text)
+    bot.sendMessage(chat_id=message.chat.id, text=text)
+
+def random_line(afile):
+    line = next(afile)
+    for num, aline in enumerate(afile):
+      if random.randrange(num + 2): continue
+      line = aline
+    return line
+
+
+def random_lyrics(message):
+    Song = Object.extend('Song')
+    song_query = Query(Song)
+    count = song_query.count()
+    skip = random.randint(0, count - 1)
+    songs = song_query.limit(1).skip(skip).find()
+    if len(songs) == 1:
+        song = songs[0]
+    else:
+        return
+    lyric = song.get('lyric')
+    from io import StringIO
+    str_io = StringIO(lyric)
+    line = random_line(str_io)
+    bot.sendMessage(chat_id=message.chat.id, text=text)
