@@ -134,8 +134,9 @@ def get_my_last_at(message):
     '''
     query = Query(AtMessage)
     query.equal_to('owner', message.from_user.username)
-    msg = query.first()
-    if msg == None:
+    try:
+        msg = query.first()
+    except LeanCloudError as e:
         bot.sendMessage(chat_id=message.chat.id, text='你还没有任何 AT 消息。')
         return
     text = 'Here you are.'
