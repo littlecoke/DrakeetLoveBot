@@ -43,8 +43,7 @@ def handle_message(message):
         milestone(message)
     if '/help' in text:
         help(message)
-    if '/randomlyric' in text:
-        random_lyric(message)
+
 
 
 def parse_cmd_text(text):
@@ -85,8 +84,7 @@ def milestone(message):
 
 def help(message):
     text = ('/echo - Repeat the same message back\n'
-            '/milestone - Get drakeet\'s milestone\n'
-            'randomlyric - Get a random lyric')
+            '/milestone - Get drakeet\'s milestone')
     chat_id = message.chat.id
     bot.sendMessage(chat_id=chat_id, text=text)
     bot.sendMessage(chat_id=message.chat.id, text=text)
@@ -100,18 +98,17 @@ def random_line(afile):
     return line
 
 
-def random_lyric(message):
-    Song = Object.extend('Song')
-    song_query = Query(Song)
-    count = song_query.count()
+def random_text(message):
+    '''
+    Deprecated
+    '''
+    Text = Object.extend('Text')
+    _query = Query(Text)
+    count = _query.count()
     skip = random.randint(0, count - 1)
-    songs = song_query.limit(1).skip(skip).find()
-    if len(songs) == 1:
-        song = songs[0]
+    texts = _query.limit(1).skip(skip).find()
+    if len(texts) == 1:
+        text = texts[0]
     else:
         return
-    lyric = song.get('lyric')
-    from io import StringIO
-    str_io = StringIO(lyric)
-    line = random_line(str_io)
     bot.sendMessage(chat_id=message.chat.id, text=text)
