@@ -124,7 +124,7 @@ AtMessage = Object.extend('AtMessage')
 
 def save_at_message(message):
     msg = AtMessage()
-    username = re.findall(r'@(\w*)\s', str)[0]
+    username = re.findall(r'@(\w*)\s', message.text)[0]
     msg.set('owner', username)
     msg.set('mid', message.message_id)
     msg.save()
