@@ -28,6 +28,7 @@ def index():
 
 @app.route('/<token>', methods=['POST'])
 def dispatch(token):
+    print('I am still alive.')
     if request.method == "POST":
         update = telegram.Update.de_json(request.get_json(force=True))
         print('json:' + request.get_json(force=True))
