@@ -143,7 +143,7 @@ def get_my_last_at(message):
     try:
         msg = query.first()
     except LeanCloudError as e:
-        bot.sendMessage(chat_id=message.chat.id, reply_to_message_id=message.reply_to_message_id, text='你还没有任何 AT 消息。')
+        bot.sendMessage(chat_id=message.chat.id, reply_to_message_id=message.message_id, text='你还没有任何 AT 消息。')
         return
     text = 'Here you are.'
     message_id = msg.get('mid')
