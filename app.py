@@ -28,9 +28,9 @@ def index():
 
 @app.route('/<token>', methods=['POST'])
 def launcher(token):
-    print('I am still alive.')
     if request.method == "POST":
         update = telegram.Update.de_json(request.get_json(force=True))
+        print('I am still alive.')
         print('json:' + request.get_json(force=True))
         handle_message(update.message)
     return 'ok'
