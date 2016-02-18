@@ -130,6 +130,7 @@ def save_at_message(message):
         return
     msg.set('owner', username)
     msg.set('mid', message.message_id)
+    msg.set('chat_id', message.chat.id)
     msg.save()
 
 
@@ -140,11 +141,12 @@ def get_my_last_at(message):
     query = Query(AtMessage)
     query.descending('createdAt')
     query.equal_to('owner', message.from_user.username)
+    query.equal_to('chat_id', message.chat.id)
     try:
         msg = query.first()
     except LeanCloudError as e:
-        bot.sendMessage(chat_id=message.chat.id, reply_to_message_id=message.message_id, text='你还没有任何 AT 消息。')
+        bot.sendMessage(chat_id=message.chat.id, reply_to_message_id=message.message_id, text='你在本群还没有任何 AT 消息。')
         return
     text = 'Here you are.'
     message_id = msg.get('mid')
-    bot.sendMessage(chat_id=message.chat.id, reply_to_message_id=message_id, text=text)
+        bot.sendMessage(chat_id=message.chat.id, reply_to_message_id=message_id, text=text)
