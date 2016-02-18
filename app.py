@@ -30,6 +30,7 @@ def index():
 def dispatch(token):
     if request.method == "POST":
         update = telegram.Update.de_json(request.get_json(force=True))
+        print('json:' + request.get_json(force=True))
         handle_message(update.message)
     return 'ok'
 
