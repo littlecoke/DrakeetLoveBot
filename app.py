@@ -45,6 +45,12 @@ def handle_message(message):
         help(message)
 
 
+def help(message):
+    text = ('/echo - Repeat the same message back\n'
+            '/milestone - Get drakeet\'s milestone')
+    bot.sendMessage(chat_id=message.chat.id, text=text)
+
+
 
 def parse_cmd_text(text):
     # Telegram understands UTF-8, so encode text for unicode compatibility
@@ -80,14 +86,6 @@ def milestone(message):
     text = 'drakeet 和他家老婆大人已经认识并相爱 %d 天啦（此处应该有恭喜' % (now - from_day).days
     chat_id = message.chat.id
     bot.sendMessage(chat_id=chat_id, text=text)
-
-
-def help(message):
-    text = ('/echo - Repeat the same message back\n'
-            '/milestone - Get drakeet\'s milestone')
-    chat_id = message.chat.id
-    bot.sendMessage(chat_id=chat_id, text=text)
-    bot.sendMessage(chat_id=message.chat.id, text=text)
 
 
 def random_line(afile):
