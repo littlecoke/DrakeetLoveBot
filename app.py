@@ -38,6 +38,8 @@ def handle_message(message):
         echo(message)
     if '/milestone' in text:
         milestone(message)
+    if '/help' in text:
+        help(message)
 
 
 def parse_cmd_text(text):
@@ -72,5 +74,14 @@ def milestone(message):
     from_day = datetime(2013, 7, 16)
     now = datetime.now()
     text = 'drakeet 和他家老婆大人已经认识并相爱 %d 天啦（此处应该有恭喜' % (now - from_day).days
+    chat_id = message.chat.id
+    bot.sendMessage(chat_id=chat_id, text=text)
+
+
+def help(message):
+    text = """
+    /echo - repeat the same message back
+    /milestone - Get drakeet's milestone
+    """
     chat_id = message.chat.id
     bot.sendMessage(chat_id=chat_id, text=text)
