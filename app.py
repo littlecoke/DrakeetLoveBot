@@ -43,11 +43,17 @@ def handle_message(message):
         milestone(message)
     if '/help' in text:
         help(message)
+    if '/getmylastat' in text:
+        get_my_last_at(message)
+    if not '/' in text and '@' in text:
+        save_at_message(message)
+
 
 
 def help(message):
     text = ('/echo - Repeat the same message back\n'
-            '/milestone - Get drakeet\'s milestone')
+            '/milestone - Get drakeet\'s milestone\n'
+            '/getmylastat - Get my last at message')
     bot.sendMessage(chat_id=message.chat.id, text=text)
 
 
@@ -112,11 +118,26 @@ def random_text(message):
     bot.sendMessage(chat_id=message.chat.id, text=text)
 
 
+AtMessage = Object.extend('AtMessage')
+
+
+def save_at_message(message):
+    msg = AtMessage()
+    msg.set('owner', message.from_user.username)
+    msg.set('mid', message.message_id)
+    msg.save()
+
+
 def get_my_last_at(message):
-    AtMessage = Object.extend('AtMessage')
+    '''
+    todo: relate the origin chat id.
+    '''
     query = Query(AtMessage)
     query.equal_to('owner', message.from_user.username)
     msg = query.first()
+    if msg == None:
+        bot.sendMessage(chat_id=message.chat.id, text='你还没有任何 AT 消息。')
+        return
     text = 'Here you are.'
     message_id = msg.get('mid')
     bot.sendMessage(chat_id=message.chat.id, reply_to_message_id=message_id, text=text)
