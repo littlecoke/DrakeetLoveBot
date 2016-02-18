@@ -47,7 +47,7 @@ def handle_message(message):
         get_my_last_at(message)
     if not '/' in text and '@' in text:
         save_at_message(message)
-
+    logging.info(text)
 
 
 def help(message):
