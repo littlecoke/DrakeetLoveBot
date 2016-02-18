@@ -79,9 +79,6 @@ def milestone(message):
 
 
 def help(message):
-    text = """
-    /echo - repeat the same message back
-    /milestone - Get drakeet's milestone
-    """
+    text = r'/echo - Repeat the same message back\n/milestone - Get drakeet's milestone'
     chat_id = message.chat.id
     bot.sendMessage(chat_id=chat_id, text=text)
