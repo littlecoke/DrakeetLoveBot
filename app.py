@@ -48,6 +48,8 @@ def handle_message(message):
         get_my_last_at(message)
     elif '/pic' in text:
         pic(message)
+    elif '/delpic' in text:
+        delpic(message)
 
     if not '/' in text and '@' in text:
         save_at_message(message)
@@ -58,7 +60,8 @@ def help(message):
     text = ('/echo - Repeat the same message back\n'
             '/milestone - Get drakeet\'s milestone\n'
             '/getmylastat - Get my last AT message\n'
-            '/pic - Curiosity killed the cat')
+            '/pic - Curiosity killed the cat\n'
+            '/delpic - Delete pic by its num')
     bot.sendMessage(chat_id=message.chat.id, text=text)
 
 
@@ -156,10 +159,27 @@ def get_my_last_at(message):
     bot.sendMessage(chat_id=message.chat.id, reply_to_message_id=message_id, text=text)
 
 
+Pic = Object.extend('Pic')
+
 def pic(message):
+    query = Query(Pic)
+    pics = query.find()
+    bolcks = [pic.get('pid') for pic in pics]
     base_url = 'http://7xqh4i.com1.z0.glb.clouddn.com/pic'
+    pic_num = None
     size_of_images = 314 # 0~size_of_images
-    pic_num = random.randint(0, size_of_images)
+    while pic_num == None or pic in bolcks:
+        pic_num = random.randint(0, size_of_images)
     bot.sendPhoto(chat_id=message.chat.id,
                   photo=base_url + str(pic_num) + '.jpg',
                   caption=pic_num)
+
+
+def delpic(message):
+    cmd, text = parse_cmd_text(message.text)
+    if text == None:
+        bot.sendMessage(chat_id=message.chat.id, reply_to_message_id=message_id, text='Use /delpic <pic\'s num>')
+    pic = Pic()
+    pic.set('pid', text)
+    pic.save()
+    bot.sendMessage(chat_id=message.chat.id, reply_to_message_id=message_id, text='Successful')
