@@ -57,7 +57,8 @@ def handle_message(message):
 def help(message):
     text = ('/echo - Repeat the same message back\n'
             '/milestone - Get drakeet\'s milestone\n'
-            '/getmylastat - Get my last at message')
+            '/getmylastat - Get my last AT message\n'
+            '/pic - Curiosity killed the cat')
     bot.sendMessage(chat_id=message.chat.id, text=text)
 
 
@@ -156,4 +157,9 @@ def get_my_last_at(message):
 
 
 def pic(message):
-    bot.sendPhoto(chat_id=message.chat.id, photo='http://tp2.sinaimg.cn/2263023493/180/5709943712/1')
+    base_url = 'http://7xqh4i.com1.z0.glb.clouddn.com/pic'
+    size_of_images = 314 # 0~size_of_images
+    pic_num = random.randint(0, size_of_images)
+    bot.sendPhoto(chat_id=message.chat.id,
+                  photo=base_url + str(pic_num) + '.jpg',
+                  caption=pic_num)
