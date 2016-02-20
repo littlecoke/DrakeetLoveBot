@@ -179,6 +179,7 @@ def delpic(message):
     cmd, text = parse_cmd_text(message.text)
     if text == None:
         bot.sendMessage(chat_id=message.chat.id, reply_to_message_id=message.message_id, text='Use /delpic <pic\'s num>')
+        return
     query = Query(Pic)
     query.equal_to('pid', text)
     pics = query.find()
