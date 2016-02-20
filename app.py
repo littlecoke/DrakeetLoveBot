@@ -168,7 +168,7 @@ def pic(message):
     base_url = 'http://7xqh4i.com1.z0.glb.clouddn.com/pic'
     pic_num = None
     size_of_images = 314 # 0~size_of_images
-    while pic_num == None or pic in bolcks:
+    while pic_num == None or pic_num in bolcks:
         pic_num = random.randint(0, size_of_images)
     bot.sendPhoto(chat_id=message.chat.id,
                   photo=base_url + str(pic_num) + '.jpg',
@@ -182,7 +182,7 @@ def delpic(message):
     query = Query(Pic)
     query.equal_to('pid', text)
     pics = query.find()
-    if pics == None or len(pics) == 0:    
+    if pics == None or len(pics) == 0:
         pic = Pic()
         pic.set('pid', text)
         pic.save()
