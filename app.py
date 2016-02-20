@@ -40,12 +40,15 @@ def handle_message(message):
     text = message.text
     if '/echo' in text:
         echo(message)
-    if '/milestone' in text:
+    elif '/milestone' in text:
         milestone(message)
-    if '/help' in text:
+    elif '/help' in text:
         help(message)
-    if '/getmylastat' in text:
+    elif '/getmylastat' in text:
         get_my_last_at(message)
+    elif '/pic' in text:
+        pic(message)
+
     if not '/' in text and '@' in text:
         save_at_message(message)
     logging.info(text)
@@ -150,3 +153,7 @@ def get_my_last_at(message):
     text = 'Here you are.'
     message_id = msg.get('mid')
     bot.sendMessage(chat_id=message.chat.id, reply_to_message_id=message_id, text=text)
+
+
+def pic(message):
+    bot.sendPhoto(chat_id=message.chat.id, photo='http://tp2.sinaimg.cn/2263023493/180/5709943712/1')
