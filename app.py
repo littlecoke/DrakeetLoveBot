@@ -179,7 +179,11 @@ def delpic(message):
     cmd, text = parse_cmd_text(message.text)
     if text == None:
         bot.sendMessage(chat_id=message.chat.id, reply_to_message_id=message.message_id, text='Use /delpic <pic\'s num>')
-    pic = Pic()
-    pic.set('pid', text)
-    pic.save()
+    query = Query(Pic)
+    query.equal_to('pid', text)
+    pics = query.find()
+    if pics == None or len(pics) == 0:    
+        pic = Pic()
+        pic.set('pid', text)
+        pic.save()
     bot.sendMessage(chat_id=message.chat.id, reply_to_message_id=message.message_id, text='Successful')
