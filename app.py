@@ -1,4 +1,4 @@
-# coding: utf-8
+# -*- coding: utf-8 -*-
 
 from datetime import datetime
 
@@ -10,6 +10,12 @@ import leancloud
 from leancloud import Engine, Query, Object, LeanCloudError
 import random
 import re
+import sys
+import urllib2
+import json
+
+reload(sys)
+sys.setdefaultencoding('utf-8')
 
 
 app = Flask(__name__)
@@ -21,6 +27,7 @@ global bot
 # 由于 美国节点，只能 git 部署，我不得不开源 token，请不要随便拿去用，如需生成你自己的 token
 # 请联系 http://telegram.me/BotFather 谢谢！
 bot = telegram.Bot(token='194363679:AAEUbDAhPiq-Y_6dmwhkHmWvaBj1pTfRDKc')
+songci_api = 'http://api.jisuapi.com/songci/search?appkey=7528478e273bd00b&keyword='
 
 @app.route('/')
 def index():
@@ -50,6 +57,8 @@ def handle_message(message):
         pic(message)
     elif '/delpic' in text:
         delpic(message)
+    elif '/songci' in text:
+        songci(message)
 
     if not '/' in text and '@' in text:
         save_at_message(message)
@@ -59,9 +68,10 @@ def handle_message(message):
 def help(message):
     text = ('/echo - Repeat the same message back\n'
             '/milestone - Get drakeet\'s milestone\n'
-            '/getmylastat - Get my last AT message\n'
+            '/getmylastat - Get my last @ message\n'
             '/pic - Curiosity killed the cat\n'
-            '/delpic - Delete pic by its num')
+            '/delpic - Delete pic by its num\n'
+            '/songci - TEXT')
     bot.sendMessage(chat_id=message.chat.id, text=text)
 
 
@@ -188,3 +198,18 @@ def delpic(message):
         pic.set('pid', text)
         pic.save()
     bot.sendMessage(chat_id=message.chat.id, reply_to_message_id=message.message_id, text='Successful')
+
+
+def songci(message):
+    cmd, text = parse_cmd_text(message.text)
+    keyword = urllib2.quote(text)
+    response = urllib2.urlopen(songci_api + keyword)
+    data = json.loads(response.read())
+    Songci = Object.extend('Songci')
+    __songci = Songci()
+    __songci.set('keyword', keyword)
+    __songci.set('data', response.read())
+    __songci.save()
+    a_songci = data['result']['list'][0]
+    __text = a_songci['title'] + '\n' + a_songci['author'] + '\n' + a_songci['content']
+    bot.sendMessage(chat_id=message.chat.id, text=__text.replace('&nbsp;', ' '))
