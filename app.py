@@ -202,7 +202,7 @@ def delpic(message):
 
 def songci(message):
     cmd, text = parse_cmd_text(message.text)
-    if text == None:
+    if text == None or len(text) == 0:
         bot.sendMessage(chat_id=message.chat.id,
                         reply_to_message_id=message.message_id,
                         text='请使用 /songci <词名>')
@@ -216,12 +216,12 @@ def songci(message):
     __songci.set('keyword', keyword)
     __songci.set('data', response.read())
     __songci.save()
-    with data['result']['list'][0] as a_songci:
-        __text = a_songci['title'] + '\n' + a_songci['author'] + '\n' + a_songci['content']
-        block_chars = '⓪①②③④⑤⑥⑦⑧⑨⑩⑪⑫⑬⑭⑮⑯⑰⑱⑲⑳❶❷❸❹❺❻❼❽❾❿⑴⑵⑶⑷⑸⑹⑺⑻⑼⑽⑾⑿⒀⒁⒂⒃⒄⒅⒆⒇'
-        temp = ''
-        for c in __text:
-            if not c in block_chars:
-                temp += c
-        __text = temp.replace('&nbsp;', ' ').replace('<br />', '\n')
-        bot.sendMessage(chat_id=message.chat.id, text=__text)
+    a_songci =  data['result']['list'][0]:
+    __text = a_songci['title'] + '\n' + a_songci['author'] + '\n' + a_songci['content']
+    block_chars = '⓪①②③④⑤⑥⑦⑧⑨⑩⑪⑫⑬⑭⑮⑯⑰⑱⑲⑳❶❷❸❹❺❻❼❽❾❿⑴⑵⑶⑷⑸⑹⑺⑻⑼⑽⑾⑿⒀⒁⒂⒃⒄⒅⒆⒇'
+    temp = ''
+    for c in __text:
+        if not c in block_chars:
+            temp += c
+    __text = temp.replace('&nbsp;', ' ').replace('<br />', '\n')
+    bot.sendMessage(chat_id=message.chat.id, text=__text)
