@@ -216,7 +216,7 @@ def songci(message):
     __songci.set('keyword', keyword)
     __songci.set('data', response.read())
     __songci.save()
-    a_songci =  data['result']['list'][0]:
+    a_songci =  data['result']['list'][0]
     __text = a_songci['title'] + '\n' + a_songci['author'] + '\n' + a_songci['content']
     block_chars = '⓪①②③④⑤⑥⑦⑧⑨⑩⑪⑫⑬⑭⑮⑯⑰⑱⑲⑳❶❷❸❹❺❻❼❽❾❿⑴⑵⑶⑷⑸⑹⑺⑻⑼⑽⑾⑿⒀⒁⒂⒃⒄⒅⒆⒇'
     temp = ''
