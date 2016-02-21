@@ -15,7 +15,7 @@ import re
 app = Flask(__name__)
 logging.basicConfig(level=logging.DEBUG,
                     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-bot_name = '@DrakeetLoveBot'
+bot_name = '@XiaoaiBot'
 
 global bot
 # 由于 美国节点，只能 git 部署，我不得不开源 token，请不要随便拿去用，如需生成你自己的 token
