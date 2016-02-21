@@ -222,6 +222,7 @@ def songci(message):
         bot.sendMessage(chat_id=message.chat.id,
                         reply_to_message_id=message.message_id,
                         text='找不到对应的宋词')
+        return
     __text = a_songci['title'] + '\n' + a_songci['author'] + '\n' + a_songci['content']
     block_chars = '⓪①②③④⑤⑥⑦⑧⑨⑩⑪⑫⑬⑭⑮⑯⑰⑱⑲⑳❶❷❸❹❺❻❼❽❾❿⑴⑵⑶⑷⑸⑹⑺⑻⑼⑽⑾⑿⒀⒁⒂⒃⒄⒅⒆⒇'
     temp = ''
