@@ -180,6 +180,7 @@ def pic(message):
     size_of_images = 314 # 0~size_of_images
     while pic_num == None or str(pic_num) in bolcks:
         pic_num = random.randint(0, size_of_images)
+    bot.sendChatAction(chat_id=message.chat.id, action=telegram.ChatAction.UPLOAD_PHOTO)
     bot.sendPhoto(chat_id=message.chat.id,
                   photo=base_url + str(pic_num) + '.jpg',
                   caption=pic_num)
