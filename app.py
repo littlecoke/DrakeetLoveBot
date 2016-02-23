@@ -208,6 +208,7 @@ def songci(message):
                         reply_to_message_id=message.message_id,
                         text='请使用 /songci <词名>')
         return
+    bot.sendChatAction(chat_id=message.chat.id, action=telegram.ChatAction.TYPING)
     text = text.replace(' ', '·')
     keyword = urllib2.quote(text)
     response = urllib2.urlopen(songci_api + keyword)
