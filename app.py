@@ -62,6 +62,8 @@ def handle_message(message):
 
     if not '/' in text and '@' in text:
         save_at_message(message)
+    else:
+        alias_filter(message)
     logging.info(text)
 
 
@@ -233,3 +235,11 @@ def songci(message):
             temp += c
     __text = temp.replace('&nbsp;', ' ').replace('<br />', '\n')
     bot.sendMessage(chat_id=message.chat.id, text=__text)
+
+
+def alias_filter(message):
+    text = message.text
+    if 'drakeet' in text or '小艾' in text or '晓锋' in text:
+        bot.sendMessage(chat_id=message.chat.id,
+                        reply_to_message_id=message.message_id,
+                        text='@drakeet')
