@@ -258,14 +258,14 @@ def alias_filter(message):
         return
     catch = False
     for a in alises:
-        if a.get('key') in text and not a.get('value') == ('@' + message.username):
+        if a.get('key') in text and not a.get('value') == ('@' + message.from_user.username):
             text = text.replace(a.get('key'), a.get('value'))
             if '@' in a.get('value'):
                 text += ' '
             catch = True
             break
     if catch == True:
-        text = message.username + ': ' + text
+        text = message.from_user.username + ': ' + text
         bot.sendMessage(chat_id=message.chat.id,
                         text=text)
 
