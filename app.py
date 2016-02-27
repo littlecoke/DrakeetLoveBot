@@ -285,9 +285,9 @@ def alias(message):
     elif __old_a == None:
         a = Alias()
         a.set('key', texts[0])
-        a.set('value', text[1])
+        a.set('value', texts[1])
         a.save()
     else:
-        __old_a.set('value', text[1])
+        __old_a.set('value', texts[1])
         __old_a.save()
     send_successful(message)
