@@ -239,7 +239,7 @@ def songci(message):
 
 def alias_filter(message):
     text = message.text
-    if 'drakeet' in text or '小艾' in text or '晓锋' in text:
+    if 'drakeet' in text or '小艾大人' in text or '晓锋' in text:
         bot.sendMessage(chat_id=message.chat.id,
                         reply_to_message_id=message.message_id,
                         text='@drakeet')
