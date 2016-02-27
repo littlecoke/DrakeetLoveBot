@@ -59,6 +59,8 @@ def handle_message(message):
         delpic(message)
     elif '/songci' in text:
         songci(message)
+    elif '/alias' in text:
+        alias(message)
 
     if not '/' in text and '@' in text:
         save_at_message(message)
@@ -92,6 +94,14 @@ def parse_cmd_text(text):
     if not cmd == None and '@' in cmd:
         cmd = cmd.replace(bot_name, '')
     return (cmd, text)
+
+
+def parse_text_array(text):
+    return text.split()
+
+
+def send_successful(message):
+    bot.sendMessage(chat_id=message.chat.id, reply_to_message_id=message.message_id, text='Successful')
 
 
 def echo(message):
@@ -200,7 +210,7 @@ def delpic(message):
         pic = Pic()
         pic.set('pid', text)
         pic.save()
-    bot.sendMessage(chat_id=message.chat.id, reply_to_message_id=message.message_id, text='Successful')
+    send_successful(message)
 
 
 def songci(message):
@@ -237,9 +247,42 @@ def songci(message):
     bot.sendMessage(chat_id=message.chat.id, text=__text)
 
 
+Alias = Object.extend('Alias')
+
+
 def alias_filter(message):
     text = message.text
-    if 'drakeet' in text or '小艾大人' in text or '晓锋' in text:
+    query = Query(Alias)
+    alises = query.find()
+    if len(alises) == 0:
+        return
+    catch = False
+    for a in alises:
+        if a.get('key') in text:
+            text = text.replace(a.get('key'), a.get('value'))
+            catch = True
+            break
+    if catch == True:
+        text = message.username + ': ' + text
         bot.sendMessage(chat_id=message.chat.id,
-                        reply_to_message_id=message.message_id,
-                        text='@drakeet')
+                        text=text)
+
+
+def alias(message):
+    cmd, text = parse_cmd_text(message.text)
+    texts = parse_text_array(text)
+    a = Alias()
+    if len(texts) > 2:
+        return bot.sendMessage(chat_id=message.chat.id,
+                               reply_to_message_id=message.message_id,
+                               text='请使用 /alias <key> <value>')
+    elif len(texts) == 1:
+        query = Query(Alias)
+        query.equal_to('key', texts[0])
+        query.first.destroy()
+        send_successful(message)
+    else:
+        a.set('key', texts[0])
+        a.set('value', text[1])
+        a.save()
+        send_successful(message)
