@@ -273,18 +273,21 @@ def alias_filter(message):
 def alias(message):
     cmd, text = parse_cmd_text(message.text)
     texts = parse_text_array(text)
-    a = Alias()
+    query = Query(Alias)
+    query.equal_to('key', texts[0])
+    __old_a = query.first()
     if len(texts) > 2:
         return bot.sendMessage(chat_id=message.chat.id,
                                reply_to_message_id=message.message_id,
                                text='请使用 /alias <key> <value>')
-    elif len(texts) == 1:
-        query = Query(Alias)
-        query.equal_to('key', texts[0])
-        query.first.destroy()
-        send_successful(message)
-    else:
+    elif not __old_a == None and len(texts) == 1:
+        __old_a.destroy()
+    elif __old_a == None:
+        a = Alias()
         a.set('key', texts[0])
         a.set('value', text[1])
         a.save()
-        send_successful(message)
+    else:
+        __old_a.set('value', text[1])
+        __old_a.save()
+    send_successful(message)
