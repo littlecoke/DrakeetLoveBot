@@ -61,11 +61,12 @@ def handle_message(message):
         songci(message)
     elif '/alias' in text:
         alias(message)
+    else:
+        alias_filter(message)
 
     if not '/' in text and '@' in text:
         save_at_message(message)
-    else:
-        alias_filter(message)
+
     logging.info(text)
 
 
@@ -151,16 +152,20 @@ def random_text(message):
 AtMessage = Object.extend('AtMessage')
 
 
+def save_at_message_with_username(message, username):
+    msg.set('owner', username)
+    msg.set('mid', message.message_id)
+    msg.set('chat_id', message.chat.id)
+    msg.save()
+
+
 def save_at_message(message):
     msg = AtMessage()
     try:
         username = re.findall(r'@(\w*)\s', message.text)[0]
     except IndexError as e:
         return
-    msg.set('owner', username)
-    msg.set('mid', message.message_id)
-    msg.set('chat_id', message.chat.id)
-    msg.save()
+    save_at_message_with_username(message, username)
 
 
 def get_my_last_at(message):
@@ -269,6 +274,7 @@ def alias_filter(message):
         text = message.from_user.username + ': ' + text
         bot.sendMessage(chat_id=message.chat.id,
                         text=text)
+        save_at_message(message)
 
 
 def alias(message):
