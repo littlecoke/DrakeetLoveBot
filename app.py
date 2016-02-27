@@ -275,7 +275,10 @@ def alias(message):
     texts = parse_text_array(text)
     query = Query(Alias)
     query.equal_to('key', texts[0])
-    __old_a = query.first()
+    try:
+        __old_a = query.first()
+    except LeanCloudError as e:
+        __old_a = None
     if len(texts) > 2:
         return bot.sendMessage(chat_id=message.chat.id,
                                reply_to_message_id=message.message_id,
