@@ -258,8 +258,10 @@ def alias_filter(message):
         return
     catch = False
     for a in alises:
-        if a.get('key') in text:
+        if a.get('key') in text and not a.get('value') == ('@' + message.username):
             text = text.replace(a.get('key'), a.get('value'))
+            if '@' in a.get('value'):
+                text += ' '
             catch = True
             break
     if catch == True:
