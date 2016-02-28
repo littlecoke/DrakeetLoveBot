@@ -278,21 +278,23 @@ def alias_filter(message):
         bot.sendMessage(chat_id=message.chat.id,
                         text=text)
 
+def help_for_alias(message):
+    return bot.sendMessage(chat_id=message.chat.id,
+                           reply_to_message_id=message.message_id,
+                           text='请使用 /alias <key> <value> 表示用 key 替换 value')
 
 def alias(message):
     cmd, text = parse_cmd_text(message.text)
     texts = parse_text_array(text)
+    if len(texts) == 0 or len(texts) > 2:
+        return help_for_alias(message)
     query = Query(Alias)
     query.equal_to('key', texts[0])
     try:
         __old_a = query.first()
     except LeanCloudError as e:
         __old_a = None
-    if len(texts) > 2 or len(texts) == 0:
-        return bot.sendMessage(chat_id=message.chat.id,
-                               reply_to_message_id=message.message_id,
-                               text='请使用 /alias <key> <value> 表示用 key 替换 value')
-    elif not __old_a == None and len(texts) == 1:
+    if not __old_a == None and len(texts) == 1:
         __old_a.destroy()
     elif __old_a == None:
         a = Alias()
