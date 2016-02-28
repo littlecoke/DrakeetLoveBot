@@ -92,7 +92,7 @@ def parse_cmd_text(text):
             return (text, None)
         cmd = text[:index]
         text = text[index + 1:]
-    if not cmd == None and '@' in cmd:
+    if cmd != None and '@' in cmd:
         cmd = cmd.replace(bot_name, '')
     return (cmd, text)
 
@@ -102,6 +102,15 @@ def parse_text_array(text):
         return []
     else:
         return text.split()
+
+
+def get_nickname(user):
+    if user.first_name != None or user.last_name != None:
+        return '%s %s' % (user.first_name, user.last_name)
+    elif user.first_name == None:
+        return user.last_name
+    elif user.last_name == None:
+        return user.first_name
 
 
 def send_successful(message):
@@ -266,7 +275,7 @@ def alias_filter(message):
         return
     catch = False
     for a in alises:
-        if a.get('key') in text and not a.get('value') == ('@' + message.from_user.username):
+        if a.get('key') in text and a.get('value') != ('@' + message.from_user.username):
             if '@' in a.get('value'):
                 text = text.replace(a.get('key'), a.get('value') + ' ')
             else:
@@ -274,7 +283,7 @@ def alias_filter(message):
             catch = True
             break
     if catch == True:
-        text = message.from_user.name + ': ' + text
+        text = get_nickname(message.from_user) + ': ' + text
         bot.sendMessage(chat_id=message.chat.id,
                         text=text)
 
@@ -294,7 +303,7 @@ def alias(message):
         __old_a = query.first()
     except LeanCloudError as e:
         __old_a = None
-    if not __old_a == None and len(texts) == 1:
+    if __old_a != None and len(texts) == 1:
         __old_a.destroy()
     elif __old_a == None:
         a = Alias()
