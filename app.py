@@ -98,7 +98,10 @@ def parse_cmd_text(text):
 
 
 def parse_text_array(text):
-    return text.split()
+    if text == None:
+        return []
+    else:
+        return text.split()
 
 
 def send_successful(message):
@@ -274,7 +277,6 @@ def alias_filter(message):
         text = message.from_user.username + ': ' + text
         bot.sendMessage(chat_id=message.chat.id,
                         text=text)
-        save_at_message(message)
 
 
 def alias(message):
@@ -286,10 +288,10 @@ def alias(message):
         __old_a = query.first()
     except LeanCloudError as e:
         __old_a = None
-    if len(texts) > 2:
+    if len(texts) > 2 or len(texts) == 0:
         return bot.sendMessage(chat_id=message.chat.id,
                                reply_to_message_id=message.message_id,
-                               text='请使用 /alias <key> <value>')
+                               text='请使用 /alias <key> <value> 表示用 key 替换 value')
     elif not __old_a == None and len(texts) == 1:
         __old_a.destroy()
     elif __old_a == None:
