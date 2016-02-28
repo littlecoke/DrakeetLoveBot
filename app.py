@@ -274,7 +274,7 @@ def alias_filter(message):
             catch = True
             break
     if catch == True:
-        text = message.from_user.username + ': ' + text
+        text = message.from_user.name + ': ' + text
         bot.sendMessage(chat_id=message.chat.id,
                         text=text)
 
