@@ -156,6 +156,7 @@ AtMessage = Object.extend('AtMessage')
 
 
 def save_at_message_with_username(message, username):
+    msg = AtMessage()
     msg.set('owner', username)
     msg.set('mid', message.message_id)
     msg.set('chat_id', message.chat.id)
@@ -163,7 +164,6 @@ def save_at_message_with_username(message, username):
 
 
 def save_at_message(message):
-    msg = AtMessage()
     try:
         username = re.findall(r'@(\w*)\s', message.text)[0]
     except IndexError as e:
