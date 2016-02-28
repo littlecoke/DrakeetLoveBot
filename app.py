@@ -59,9 +59,9 @@ def handle_message(message):
         delpic(message)
     elif '/songci' in text:
         songci(message)
-    elif '/alias' in text and not '@' in text and not '/' in text:
+    elif '/alias' in text:
         alias(message)
-    else:
+    elif not '@' in text and not '/' in text:
         alias_filter(message)
 
     if not '/' in text and '@' in text:
