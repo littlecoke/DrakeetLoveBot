@@ -207,6 +207,7 @@ def pic(message):
     base_url = 'http://7xqh4i.com1.z0.glb.clouddn.com/pic'
     if text != None:
         url = base_url + str(text)
+        pic_num = text
     else:
         query = Query(Pic)
         pics = query.find()
