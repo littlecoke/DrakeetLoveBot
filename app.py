@@ -13,6 +13,7 @@ import re
 import sys
 import urllib2
 import json
+import threading
 
 reload(sys)
 sys.setdefaultencoding('utf-8')
@@ -206,13 +207,16 @@ def pic(message):
     bolcks = [pic.get('pid') for pic in pics]
     base_url = 'http://7xqh4i.com1.z0.glb.clouddn.com/pic'
     pic_num = None
-    size_of_images = 314 # 0~size_of_images
+    size_of_images = 330 # 0~size_of_images
     while pic_num == None or str(pic_num) in bolcks:
         pic_num = random.randint(0, size_of_images)
     bot.sendChatAction(chat_id=message.chat.id, action=telegram.ChatAction.UPLOAD_PHOTO)
-    bot.sendPhoto(chat_id=message.chat.id,
-                  photo=base_url + str(pic_num) + '.jpg',
-                  caption=pic_num)
+    def send_photo_task():
+        bot.sendPhoto(chat_id=message.chat.id,
+                      photo=base_url + str(pic_num) + '.jpg',
+                      caption=pic_num)
+    t = threading.Thread(target=send_photo_task)
+    t.start()
 
 
 def delpic(message):
