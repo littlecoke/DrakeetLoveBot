@@ -202,18 +202,24 @@ def get_my_last_at(message):
 Pic = Object.extend('Pic')
 
 def pic(message):
-    query = Query(Pic)
-    pics = query.find()
-    bolcks = [pic.get('pid') for pic in pics]
+    cmd, text = parse_cmd_text(message.text)
+    url = None
     base_url = 'http://7xqh4i.com1.z0.glb.clouddn.com/pic'
-    pic_num = None
-    size_of_images = 330 # 0~size_of_images
-    while pic_num == None or str(pic_num) in bolcks:
-        pic_num = random.randint(0, size_of_images)
+    if text != None:
+        url = base_url + str(text)
+    else:
+        query = Query(Pic)
+        pics = query.find()
+        bolcks = [pic.get('pid') for pic in pics]
+        pic_num = None
+        size_of_images = 330 # 0~size_of_images
+        while pic_num == None or str(pic_num) in bolcks:
+            pic_num = random.randint(0, size_of_images)
+        url = base_url + str(pic_num)
     bot.sendChatAction(chat_id=message.chat.id, action=telegram.ChatAction.UPLOAD_PHOTO)
     def send_photo_task():
         bot.sendPhoto(chat_id=message.chat.id,
-                      photo=base_url + str(pic_num) + '.jpg',
+                      photo=url + '.jpg',
                       caption=pic_num)
     t = threading.Thread(target=send_photo_task)
     t.start()
