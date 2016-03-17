@@ -316,12 +316,12 @@ def alias(message):
         __old_a = None
     if __old_a != None and len(texts) == 1:
         __old_a.destroy()
-    elif __old_a == None:
+    elif __old_a == None and len(texts) == 2:
         a = Alias()
         a.set('key', texts[0])
         a.set('value', texts[1])
         a.save()
-    else:
+    elif len(texts) == 2:
         __old_a.set('value', texts[1])
         __old_a.save()
     send_successful(message)
