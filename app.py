@@ -295,7 +295,8 @@ def alias_filter(message):
     #         catch = True
     #         break
     keys = [x.get('key') for x in alises]
-    matches = re.findall('|'.join(keys), text)
+    # make the longer key be replaced first
+    matches = sorted(re.findall('|'.join(keys), text), key=lambda x: len(x), reverse=True)
     if len(matches) > 0:
         catch = True
     for m in matches:
