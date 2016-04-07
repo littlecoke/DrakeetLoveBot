@@ -285,14 +285,26 @@ def alias_filter(message):
     if len(alises) == 0:
         return
     catch = False
-    for a in alises:
-        if a.get('key') in text and a.get('value') != ('@' + message.from_user.username):
-            if '@' in a.get('value'):
-                text = text.replace(a.get('key'), a.get('value') + ' ')
-            else:
-                text = text.replace(a.get('key'), a.get('value'))
-            catch = True
-            break
+    aliases_dict = {x.get('key'): x.get('value') for x in alises}
+    # for a in alises:
+    #     if a.get('key') in text and a.get('value') != ('@' + message.from_user.username):
+    #         if '@' in a.get('value'):
+    #             text = text.replace(a.get('key'), a.get('value') + ' ')
+    #         else:
+    #             text = text.replace(a.get('key'), a.get('value'))
+    #         catch = True
+    #         break
+    keys = [x.get('key') for x in alises]
+    # make the longer key be replaced first
+    matches = sorted(re.findall('|'.join(keys), text), key=lambda x: len(x), reverse=True)
+    if len(matches) > 0:
+        catch = True
+    for m in matches:
+        if '@' in aliases_dict.get(m):
+            text = text.replace(m, aliases_dict.get(m) + ' ')
+        else:
+            text = text.replace(m, aliases_dict.get(m))
+
     if catch == True:
         text = get_nickname(message.from_user) + ': ' + text
         bot.sendMessage(chat_id=message.chat.id,
