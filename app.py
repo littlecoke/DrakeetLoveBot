@@ -300,8 +300,7 @@ def alias_filter(message):
     if len(matches) > 0:
         catch = True
     if len(matches) == 1:
-        m = matches.itervalues().next()
-        if aliases_dict.get(m) == ('@' + message.from_user.username):
+        if aliases_dict.get(matches[0]) == ('@' + message.from_user.username):
             return
     for m in matches:
         if '@' in aliases_dict.get(m):
