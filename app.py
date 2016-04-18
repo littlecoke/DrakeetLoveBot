@@ -299,6 +299,10 @@ def alias_filter(message):
     matches = sorted(re.findall('|'.join(keys), text), key=lambda x: len(x), reverse=True)
     if len(matches) > 0:
         catch = True
+    if len(matches) == 1:
+        m = matches.itervalues().next()
+        if aliases_dict.get(m) == ('@' + message.from_user.username):
+            return
     for m in matches:
         if '@' in aliases_dict.get(m):
             text = text.replace(m, aliases_dict.get(m) + ' ')
