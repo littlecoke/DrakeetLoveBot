@@ -286,7 +286,7 @@ def xu(message):
     haha.increment('life', 1)
     haha.save()
     _life = int(haha.get('life')) + 1
-    reply = get_nickname(message.from_user) + ' 刚才续了 1 秒，excited! 已经续了 ' + _life + 's'
+    reply = get_nickname(message.from_user) + ' 刚才续了 1 秒，excited! 已经续了 ' + str(_life) + 's'
     bot.sendMessage(chat_id=message.chat.id, text=reply)
 
 
