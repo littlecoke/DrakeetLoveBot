@@ -62,6 +62,8 @@ def handle_message(message):
         songci(message)
     elif '/alias' in text:
         alias(message)
+    elif '/xu' in text:
+        xu(message)
     elif not '@' in text and not '/' in text:
         alias_filter(message)
 
@@ -273,6 +275,19 @@ def songci(message):
             temp += c
     __text = temp.replace('&nbsp;', ' ').replace('<br />', '\n')
     bot.sendMessage(chat_id=message.chat.id, text=__text)
+
+
+Haha = Object.extend('Haha')
+
+
+def xu(message):
+    query = Query(Haha)
+    haha = query.first()
+    haha.increment('life', 1)
+    haha.save()
+    _life = int(haha.get('life')) + 1
+    reply = get_nickname(message.from_user) + ' 刚才续了 1 秒，excited! 已经续了 ' + _life + 's'
+    bot.sendMessage(chat_id=message.chat.id, text=reply)
 
 
 Alias = Object.extend('Alias')
