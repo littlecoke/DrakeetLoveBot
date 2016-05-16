@@ -283,10 +283,10 @@ Haha = Object.extend('Haha')
 def xu(message):
     query = Query(Haha)
     haha = query.first()
+    life = int(haha.get('life')) + 1
     haha.increment('life', 1)
     haha.save()
-    _life = int(haha.get('life')) + 1
-    reply = get_nickname(message.from_user) + ' 续了 1 秒，excited! 已经续了 ' + str(_life) + ' 秒了。'
+    reply = get_nickname(message.from_user) + ' 续了 1 秒，excited! 已经续了 ' + str(life) + ' 秒了。'
     bot.sendMessage(chat_id=message.chat.id, text=reply)
 
 
