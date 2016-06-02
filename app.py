@@ -303,14 +303,6 @@ def alias_filter(message):
         return
     catch = False
     aliases_dict = {x.get('key'): x.get('value') for x in alises}
-    # for a in alises:
-    #     if a.get('key') in text and a.get('value') != ('@' + message.from_user.username):
-    #         if '@' in a.get('value'):
-    #             text = text.replace(a.get('key'), a.get('value') + ' ')
-    #         else:
-    #             text = text.replace(a.get('key'), a.get('value'))
-    #         catch = True
-    #         break
     keys = [x.get('key') for x in alises]
     # make the longer key be replaced first
     matches = sorted(re.findall('|'.join(keys), text), key=lambda x: len(x), reverse=True)
@@ -321,7 +313,11 @@ def alias_filter(message):
             return
     for m in matches:
         if '@' in aliases_dict.get(m):
-            text = text.replace(m, aliases_dict.get(m) + ' ')
+            prefix = ' '
+            if (prefix + m) in text:
+                text = text.replace(m, aliases_dict.get(m) + ' ')
+            else:
+                text = text.replace(m, prefix + aliases_dict.get(m) + ' ')
         else:
             text = text.replace(m, aliases_dict.get(m))
 
