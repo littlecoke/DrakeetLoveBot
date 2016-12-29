@@ -56,10 +56,10 @@ def handle_message(message):
         help(message)
     elif '/getmylastat' in text:
         get_my_last_at(message)
-    elif '/pic' in text:
-        pic(message)
-    elif '/delpic' in text:
-        delpic(message)
+#   elif '/pic' in text:
+#       pic(message)
+#   elif '/delpic' in text:
+#       delpic(message)
     elif '/songci' in text:
         songci(message)
     elif '/alias' in text:
