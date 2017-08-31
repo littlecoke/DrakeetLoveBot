@@ -45,8 +45,8 @@ def launcher(token):
 
 
 def handle_message(message):
-    if message == None:
-        return
+#   if message == None:
+#       return
     text = message.text
     if '/echo' in text:
         echo(message)
