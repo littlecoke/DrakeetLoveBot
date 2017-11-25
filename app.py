@@ -14,7 +14,6 @@ import sys
 import urllib2
 import json
 import threading
-
 reload(sys)
 sys.setdefaultencoding('utf-8')
 
@@ -25,9 +24,7 @@ logging.basicConfig(level=logging.DEBUG,
 bot_name = '@XiaoaiBot'
 
 global bot
-# 由于 美国节点，只能 git 部署，我不得不开源 token，请不要随便拿去用，如需生成你自己的 token
-# 请联系 http://telegram.me/BotFather 谢谢！
-bot = telegram.Bot(token='194363679:AAEUbDAhPiq-Y_6dmwhkHmWvaBj1pTfRDKc')
+bot = telegram.Bot(token='488464613:AAHMHWkjBlmWnP_1dn3hGYJBamHlbDKBhBE')
 songci_api = 'http://api.jisuapi.com/songci/search?appkey=7528478e273bd00b&keyword='
 
 @app.route('/')
@@ -135,9 +132,9 @@ def echo(message):
 
 
 def milestone(message):
-    from_day = datetime(2013, 7, 16)
+    from_day = datetime(1997, 9, 20)
     now = datetime.now()
-    text = 'drakeet 和他家老婆大人已经认识并相爱 %d 天啦（此处应该有恭喜' % (now - from_day).days
+    text = 'littleC0ke已经苟活在世界上 %d 天啦（以后要继续努力' % (now - from_day).days
     chat_id = message.chat.id
     bot.sendMessage(chat_id=chat_id, text=text)
 
